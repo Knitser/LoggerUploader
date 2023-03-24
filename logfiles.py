@@ -19,7 +19,7 @@ for filename in os.listdir('zipfiles'):
     print('old zipfiles successfully removed')
 
 # Create a new gzip file for the output data
-with gzip.open(output_file, 'wb') as f_out:
+with gzip.open(output_file, 'wb', compresslevel=9) as f_out:
     # This will append all files into 1 zip file.
     for filename in os.listdir('logfiles'):
         filepath = os.path.join('logfiles', filename)

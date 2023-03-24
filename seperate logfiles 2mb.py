@@ -26,7 +26,7 @@ for filename in os.listdir('logfiles'):
         print('Processing file {} ({} bytes)'.format(filename, file_size))
 
         # Split the logfile into chunks of 2MB (2,097,152 bytes)
-        chunk_size = 2 * 1024 * 1024 # 2MB
+        chunk_size = 2 * 1024 * 1024  # 2MB
         chunks = [chunk for chunk in iter(lambda: f_in.read(chunk_size), b'')]
 
         # Save the chunks to separate gzip files
@@ -36,7 +36,7 @@ for filename in os.listdir('logfiles'):
             logfile = '{}_{}_{}.gz'.format(timestamp.strftime('%Y_%m_%d_%H_%M_%S'), filename[:-4], i)
 
             # Create a new gzip file for the chunk data
-            with gzip.open(output_file, 'wb') as f_out:
+            with gzip.open(output_file, 'wb', compresslevel=9) as f_out:
                 # Write the chunk data to the output file
                 f_out.write(chunk)
                 print('Chunk {} ({} bytes) of file {} successfully zipped'.format(i, chunk_size, filename))

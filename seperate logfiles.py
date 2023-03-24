@@ -25,7 +25,7 @@ for filename in os.listdir('logfiles'):
     logfile = '{}_{}.gz'.format(timestamp.strftime('%Y_%m_%d_%H_%M_%S'), filename[:-4])
 
     # Create a new gzip file for the output data
-    with gzip.open(output_file, 'wb') as f_out:
+    with gzip.open(output_file, 'wb', compresslevel=9) as f_out:
         with open(os.path.join('logfiles', filename), 'rb') as f_in:
             # Read the input file and write its contents to the output file
             f_out.writelines(f_in)
