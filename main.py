@@ -9,10 +9,10 @@ subprocess.run(['pip', 'install', '-r', 'requirements.txt'])
 def main():
     # changing variables
     file_format = datetime.now().strftime('logfiles/%Y/%m/%d/%H/')
-    chunk_size = 2 * 1024 * 1024
+    chunk_size_2mb = 2 * 1024 * 1024
 
     s3_uploader = S3Uploader('blackboxlinkedcar', file_format)
-    logfile_splitter = LogfileSplitter(chunk_size)
+    logfile_splitter = LogfileSplitter(chunk_size_2mb)
 
     # Create the zipfiles directory if it doesn't exist
     if not os.path.exists('zipfiles'):
