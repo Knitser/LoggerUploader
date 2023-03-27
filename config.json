@@ -1,0 +1,19 @@
+{
+  "aws": {
+    "aws_credentials_folder": "~/.aws/credentials"
+  },
+  "app": {
+    "start_delay": 0.1,
+    "log_split": 2000000,
+    "log_file_path": "/logfiles",
+    "zip_file_path": "/zipfiles"
+  },
+  "log_channel": {
+    "can": 2,
+    "obd": 1
+  },
+  "serial": {
+    "serial_port": "/dev/ttyUSB0",
+    "baud": 115200
+  }
+}
