@@ -2,3 +2,5 @@ boto3==1.26.99
 pyserial~=3.5
 can~=0.0.0
 serial~=0.0.97
+python-can~=4.1.0
+cantools~=38.0.2
