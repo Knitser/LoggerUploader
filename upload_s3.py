@@ -2,9 +2,6 @@ import boto3
 import gzip
 import os
 from datetime import datetime
-import subprocess
-
-subprocess.run(['pip', 'install', '-r', 'requirements.txt'])
 
 
 class S3Uploader:
@@ -35,7 +32,9 @@ class LogfileSplitter:
             # Save the chunks to separate gzip files
             for i, chunk in enumerate(chunks):
                 chunk_size = len(chunk)
-                output_path = f'zipfiles/{i}_{os.path.basename(input_path)}.gz'
+                filename = os.path.splitext(os.path.basename(input_path))[0]
+                timestamp = datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
+                output_path = f'zipfiles/{timestamp}_{filename}_{i}.gz'
 
                 # Create a new gzip file for the chunk data
                 with gzip.open(output_path, 'wb', compresslevel=9) as f_out:
@@ -45,29 +44,3 @@ class LogfileSplitter:
 
                 # Yield the chunk filename for uploading to S3
                 yield output_path
-
-
-def main():
-    s3_uploader = S3Uploader('blackboxlinkedcar', datetime.now().strftime('logfiles/%Y/%m/%d/%H/'))
-    logfile_splitter = LogfileSplitter(chunk_size=2 * 1024 * 1024)
-
-    # Create the zipfiles directory if it doesn't exist
-    if not os.path.exists('zipfiles'):
-        os.makedirs('zipfiles')
-
-    # Delete the previous log files
-    for filename in os.listdir('zipfiles'):
-        os.remove(os.path.join('zipfiles', filename))
-        print('Old zipfiles successfully removed')
-
-    # Split each logfile into smaller parts and upload them individually
-    for filename in os.listdir('logfiles'):
-        input_path = os.path.join('logfiles', filename)
-        for chunk_path in logfile_splitter.split_logfile(input_path):
-            s3_uploader.upload_chunk(chunk_path)
-
-    print('All logfiles successfully uploaded to S3')
-
-
-if __name__ == '__main__':
-    main()
