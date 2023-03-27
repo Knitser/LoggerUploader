@@ -2,6 +2,7 @@ import serial
 
 # Define the serial port settings
 port = 'COM1'
+# port = '/dev/ttyUSB0'
 baudrate = 115200
 
 # Create a new serial object
