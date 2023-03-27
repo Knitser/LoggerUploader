@@ -2,6 +2,9 @@ import boto3
 import gzip
 import os
 from datetime import datetime
+import subprocess
+
+subprocess.run(['pip', 'install', '-r', 'requirements.txt'])
 
 s3 = boto3.client('s3')
 bucket_name = 'blackboxlinkedcar'
