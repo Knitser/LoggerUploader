@@ -160,3 +160,7 @@ cython_debug/
 .idea/vcs.xml
 logfiles/Drive.asc
 .idea/shelf/Uncommitted_changes_before_Update_at_3_28_2023_2_06_PM_\[Changes\]/shelved.patch
+aws/install
+aws/THIRD_PARTY_LICENSES
+.gitignore
+aws/README.md
