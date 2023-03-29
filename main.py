@@ -1,10 +1,9 @@
 from datetime import datetime
-from upload_s3 import LogfileSplitter, S3Uploader
+from upload_s3 import S3Uploader
+from logfilesplitter import LogfileSplitter
 from serialread import SerialLogger
 import os
 import subprocess
-
-subprocess.run(['pip', 'install', '-r', 'requirements.txt'])
 
 
 def main():
@@ -39,4 +38,5 @@ def main():
 
 
 if __name__ == '__main__':
+    subprocess.run(['pip', 'install', '-r', 'requirements.txt'])
     main()
