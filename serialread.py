@@ -8,7 +8,7 @@ port = '/dev/ttyUSB0'
 baudrate = 115200
 
 # Configure the logger to write to a file in the logfiles directory
-logging.basicConfig(filename='logfiles/logfile.asc', level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
+# logging.basicConfig(filename='logfiles/logfile.asc', level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
 
 # Create a new serial object
 ser = serial.Serial(port, baudrate)
