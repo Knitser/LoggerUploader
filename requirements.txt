@@ -4,5 +4,5 @@ can~=0.0.0
 python-can~=4.1.0
 cantools~=38.0.2
 pyzmq~=25.0.2
-crontab~=1.0.0
+python-crontab==2.7.1
 serial~=0.0.97

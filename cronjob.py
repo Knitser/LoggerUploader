@@ -1,6 +1,7 @@
 from crontab import CronTab
 
-cron = CronTab(user='knitser')
-job = cron.new(command='python main.py')
-job.minute.every(2)
-cron.write()
+
+with CronTab() as cron:
+    job = cron.new(command='echo hello_world')
+    job.minute.every(1)
+print('cron.write() was just executed')
