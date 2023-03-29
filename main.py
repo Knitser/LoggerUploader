@@ -7,8 +7,9 @@ import subprocess
 
 
 def main():
+
     # start the logger
-    logger = SerialLogger('/dev/ttyUSB0', 115200, log_interval=120, log_directory='logfiles')
+    logger = SerialLogger(serial_port='/dev/ttyUSB0', baudrate=115200, log_interval=120, log_directory='logfiles')
     logger.run()
 
     # changing variables
