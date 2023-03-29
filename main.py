@@ -1,5 +1,6 @@
 from datetime import datetime
 from upload_s3 import LogfileSplitter, S3Uploader
+from serialread import SerialLogger
 import os
 import subprocess
 
@@ -7,10 +8,15 @@ subprocess.run(['pip', 'install', '-r', 'requirements.txt'])
 
 
 def main():
+    # start the logger
+    logger = SerialLogger('/dev/ttyUSB0', 115200, log_interval=120, log_directory='logfiles')
+    logger.run()
+
     # changing variables
     file_format_aws = datetime.now().strftime('logfiles/%Y/%m/%d/%H/')
     file_size_2mb = 2 * 1024 * 1024
 
+    
     s3_uploader = S3Uploader('blackboxlinkedcar', file_format_aws)
     logfiles = LogfileSplitter(file_size_2mb)
 
