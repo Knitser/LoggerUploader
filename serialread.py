@@ -7,6 +7,7 @@ baudrate = 115200
 
 # Create a new serial object
 ser = serial.Serial(port, baudrate)
+# ser = serial.Serial('/dev/ttyAMA0', 115200)
 
 while True:
     try:
