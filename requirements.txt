@@ -1,6 +1,5 @@
 boto3==1.26.101
 pyserial~=3.5
-can~=0.0.0
 python-can~=4.1.0
 cantools~=38.0.2
 pyzmq~=25.0.2
