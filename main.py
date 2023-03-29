@@ -7,7 +7,6 @@ import subprocess
 
 
 def main():
-
     # start the logger
     logger = SerialLogger(serial_port='/dev/ttyUSB0', baudrate=115200, log_interval=120, log_directory='logfiles')
     logger.run()
@@ -16,7 +15,6 @@ def main():
     file_format_aws = datetime.now().strftime('logfiles/%Y/%m/%d/%H/')
     file_size_2mb = 2 * 1024 * 1024
 
-    
     s3_uploader = S3Uploader('blackboxlinkedcar', file_format_aws)
     logfiles = LogfileSplitter(file_size_2mb)
 

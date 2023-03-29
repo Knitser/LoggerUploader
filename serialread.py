@@ -4,8 +4,8 @@ import time
 
 
 class SerialLogger:
-    def __init__(self, port, baudrate, log_interval, log_directory):
-        self.port = port
+    def __init__(self, serial_port, baudrate, log_interval, log_directory):
+        self.serial_port = serial_port
         self.baudrate = baudrate
         self.log_interval = log_interval
         self.log_directory = log_directory
@@ -28,7 +28,7 @@ class SerialLogger:
 
     def run(self):
         # Create a new serial object
-        ser = serial.Serial(self.port, self.baudrate)
+        ser = serial.Serial(self.serial_port, self.baudrate)
 
         # Initialize the time when the current log file was created
         start_time = time.time()
