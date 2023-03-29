@@ -2,6 +2,7 @@ import serial
 import logging
 import time
 
+
 class SerialLogger:
     def __init__(self, port, baudrate, log_interval, log_directory):
         self.port = port
@@ -13,9 +14,11 @@ class SerialLogger:
         self.start_logging()
 
     def start_logging(self):
-        logging.basicConfig(filename=f'{self.log_directory}/logfile.txt', level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
+        logging.basicConfig(filename=f'{self.log_directory}/logfile.asc', level=logging.DEBUG,
+                            format='%(asctime)s %(levelname)s %(message)s')
 
-    def stop_logging(self):
+    @staticmethod
+    def stop_logging():
         logging.shutdown()
 
     def split_logfile(self):
@@ -52,4 +55,3 @@ class SerialLogger:
                 ser.close()
                 self.stop_logging()
                 break
-
