@@ -1,17 +1,23 @@
 import serial
 import time
 import os
+import gzip
 
 class SerialLogger:
-    def __init__(self, port='/dev/ttyACM0', baudrate=115200, log_interval_sec=120, log_directory='logfiles'):
+    def __init__(self, port, baudrate, log_interval_sec, log_directory, zip_directory):
         self.port = port
         self.baudrate = baudrate
         self.log_interval_sec = log_interval_sec
         self.log_directory = log_directory
+        self.zip_directory = zip_directory
 
         # Create a new directory for the log files if it doesn't exist
         if not os.path.exists(self.log_directory):
             os.makedirs(self.log_directory)
+
+        # Create a new directory for the zip files if it doesn't exist
+        if not os.path.exists(self.zip_directory):
+            os.makedirs(self.zip_directory)
 
     def start_logging(self):
         # Create a new serial object
@@ -43,6 +49,9 @@ class SerialLogger:
                     # rename the current log file to the new filename
                     os.rename(log_filename, new_log_filename)
 
+                    # zip the old log file
+                    self.zip_log_file(new_log_filename)
+
                     # open a new log file for writing
                     log_file = open(log_filename, 'w')
 
@@ -56,6 +65,15 @@ class SerialLogger:
     def _get_log_filename(self):
         return os.path.join(self.log_directory, time.strftime("%Y-%m-%d_%H-%M-%S_logfile.asc", time.localtime()))
 
+    def zip_log_file(self, log_filename):
+        # create the gzip filename based on the log filename
+        gzip_filename = os.path.splitext(os.path.basename(log_filename))[0] + '.gz'
 
-logger = SerialLogger(port='/dev/ttyACM0', baudrate=115200, log_interval_sec=120, log_directory='logfiles')
-logger.start_logging()
+        # open the log file for reading
+        with open(log_filename, 'rb') as f_in:
+            # create the gzip file for writing
+            with gzip.open(os.path.join(self.zip_directory, gzip_filename), 'wb') as f_out:
+                f_out.writelines(f_in)
+
+        # delete the log file
+        os.remove(log_filename)
