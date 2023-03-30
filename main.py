@@ -1,7 +1,7 @@
 from datetime import datetime
 from upload_s3 import S3Uploader
 from logfilesplitter import LogfileSplitter
-from serialread import SerialLogger
+from serialsimple import SerialLogger
 import os
 import subprocess
 
@@ -9,7 +9,7 @@ import subprocess
 def main():
     # start the logger
     logger = SerialLogger(serial_port='/dev/ttyUSB0', baudrate=115200, log_interval=120, log_directory='logfiles')
-    logger.run()
+    logger.start_logging()
 
     # changing variables
     file_format_aws = datetime.now().strftime('logfiles/%Y/%m/%d/%H/')
