@@ -59,10 +59,10 @@ class SerialLogger:
                     self.zip_logs(log_filename)
 
                     # create a new log filename based on the current time
-                    new_log_filename = self._get_log_filename()
+                    log_filename = self._get_log_filename()
 
                     # open a new log file for writing
-                    log_file = open(new_log_filename, 'w')
+                    log_file = open(log_filename, 'w')
 
                     # reset the start time
                     start_time = time.time()
