@@ -3,7 +3,6 @@ import time
 import os
 import gzip
 from upload_s3 import S3Uploader
-import threading
 
 
 class SerialLogger:
@@ -43,9 +42,6 @@ class SerialLogger:
 
         start_time = time.time()
 
-        # upload_timer = threading.Timer(60, self.upload_and_delete_zip_files)
-        # upload_timer.start()
-
         try:
             while True:
                 line = ser.readline().decode('utf-8').strip()
@@ -65,20 +61,11 @@ class SerialLogger:
                     # create a new log filename based on the current time
                     new_log_filename = self._get_log_filename()
 
-                    # # rename the current log file to the new filename
-                    # os.rename(log_filename, new_log_filename)
-
                     # open a new log file for writing
                     log_file = open(new_log_filename, 'w')
 
                     # reset the start time
                     start_time = time.time()
-
-
-                # upload to s3 file.
-                # if time.time() - start_time >= 10:
-                #     self.upload_and_delete_zip_files()
-                #     start_time = time.time()
 
         except KeyboardInterrupt:
             ser.close()
