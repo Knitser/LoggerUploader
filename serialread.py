@@ -40,7 +40,6 @@ class SerialLogger:
                 # Decode the bytes into a string
                 line = line.decode('utf-8').strip()
 
-                print(line)
                 # Write the line to the log file
                 logging.info(line)
 
@@ -56,6 +55,5 @@ class SerialLogger:
                 ser.close()
                 self.stop_logging()
                 break
-            
-logger = SerialLogger(serial_port='/dev/ttyACM0', baudrate=115200, log_interval=120, log_directory='logfiles')
+logger = SerialLogger(serial_port='/dev/ttyUSB0', baudrate=115200, log_interval=120, log_directory='logfiles')
 logger.run()
