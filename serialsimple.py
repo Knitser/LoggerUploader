@@ -20,12 +20,6 @@ class SerialLogger:
         if not os.path.exists(self.zip_directory):
             os.makedirs(self.zip_directory)
 
-    def upload_and_delete_zip_files(self):
-        for zip_file in os.listdir(self.zip_directory):
-            zip_filepath = os.path.join(self.zip_directory, zip_file)
-            self.s3_uploader.upload_file(zip_filepath)
-            os.remove(zip_filepath)
-
     def _get_log_filename(self):
         return os.path.join(self.log_directory, time.strftime("%Y-%m-%d_%H-%M-%S_logfile.asc", time.gmtime()))
 
@@ -33,6 +27,12 @@ class SerialLogger:
         zip_filename = os.path.join(self.zip_directory, os.path.basename(log_filename) + '.gz')
         with open(log_filename, 'rb') as f_in, gzip.open(zip_filename, 'wb') as f_out:
             f_out.writelines(f_in)
+
+    def upload_and_delete_zip_files(self):
+        for zip_file in os.listdir(self.zip_directory):
+            zip_filepath = os.path.join(self.zip_directory, zip_file)
+            self.s3_uploader.upload_file(zip_filepath)
+            os.remove(zip_filepath)
 
     def start_logging(self):
         ser = serial.Serial(self.port, self.baudrate)
