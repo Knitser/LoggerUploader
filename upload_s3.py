@@ -1,7 +1,5 @@
 import boto3
-import gzip
 import os
-from datetime import datetime
 
 
 class S3Uploader:
