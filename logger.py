@@ -2,8 +2,23 @@ import serial
 import time
 import os
 import gzip
+from threading import Thread
 from upload_s3 import S3Uploader
 
+class S3UploaderThread(Thread):
+    def __init__(self, uploader, zip_directory):
+        Thread.__init__(self)
+        self.uploader = uploader
+        self.zip_directory = zip_directory
+        self.daemon = True
+
+    def run(self):
+        while True:
+            for zip_file in os.listdir(self.zip_directory):
+                zip_filepath = os.path.join(self.zip_directory, zip_file)
+                self.uploader.upload_file(zip_filepath)
+                os.remove(zip_filepath)
+            time.sleep(60)
 
 class SerialLogger:
     def __init__(self, port, baudrate, log_interval_sec, log_directory, zip_directory, bucket_name, s3_prefix):
@@ -20,6 +35,9 @@ class SerialLogger:
         if not os.path.exists(self.zip_directory):
             os.makedirs(self.zip_directory)
 
+        self.s3_thread = S3UploaderThread(self.s3_uploader, self.zip_directory)
+        self.s3_thread.start()
+
     def _get_log_filename(self):
         return os.path.join(self.log_directory, time.strftime("%Y_%m_%d-%H_%M_%S_logfile.asc", time.gmtime()))
 
@@ -27,12 +45,6 @@ class SerialLogger:
         zip_filename = os.path.join(self.zip_directory, os.path.basename(log_filename) + '.gz')
         with open(log_filename, 'rb') as f_in, gzip.open(zip_filename, 'wb', compresslevel=9) as f_out:
             f_out.writelines(f_in)
-
-    def upload_and_delete_zip_files(self):
-        for zip_file in os.listdir(self.zip_directory):
-            zip_filepath = os.path.join(self.zip_directory, zip_file)
-            self.s3_uploader.upload_file(zip_filepath)
-            os.remove(zip_filepath)
 
     def start_logging(self):
         ser = serial.Serial(self.port, self.baudrate)
