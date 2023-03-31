@@ -43,8 +43,8 @@ class SerialLogger:
 
         start_time = time.time()
 
-        upload_timer = threading.Timer(60, self.upload_and_delete_zip_files)
-        upload_timer.start()
+        # upload_timer = threading.Timer(60, self.upload_and_delete_zip_files)
+        # upload_timer.start()
 
         try:
             while True:
@@ -76,9 +76,9 @@ class SerialLogger:
 
 
                 # upload to s3 file.
-                if time.time() - start_time >= 10:
-                    self.upload_and_delete_zip_files()
-                    start_time = time.time()
+                # if time.time() - start_time >= 10:
+                #     self.upload_and_delete_zip_files()
+                #     start_time = time.time()
 
         except KeyboardInterrupt:
             ser.close()
