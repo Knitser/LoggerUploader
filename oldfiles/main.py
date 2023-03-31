@@ -1,7 +1,7 @@
 from datetime import datetime
 from upload_s3 import S3Uploader
 from oldfiles.logfilesplitter import LogfileSplitter
-from serialsimple import SerialLogger
+from logger import SerialLogger
 import os
 import subprocess
 

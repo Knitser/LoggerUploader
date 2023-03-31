@@ -1,11 +1,11 @@
-from serialsimple import SerialLogger
+from logger import SerialLogger
 from datetime import datetime
 
 
 def main():
     port = '/dev/ttyACM0'
     baudrate = 115200
-    log_interval_sec = 60
+    log_interval_sec = 2
     log_directory = 'logfiles'
     zip_directory = 'zipfiles'
     bucket_name = 'blackboxlinkedcar'
