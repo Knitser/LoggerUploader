@@ -21,7 +21,7 @@ class SerialLogger:
             os.makedirs(self.zip_directory)
 
     def _get_log_filename(self):
-        return os.path.join(self.log_directory, time.strftime("%Y-%m-%d_%H-%M-%S_logfile.asc", time.gmtime()))
+        return os.path.join(self.log_directory, time.strftime("%Y_%m_%d-%H_%M_%S_logfile.asc", time.gmtime()))
 
     def zip_logs(self, log_filename):
         zip_filename = os.path.join(self.zip_directory, os.path.basename(log_filename) + '.gz')
@@ -66,3 +66,4 @@ class SerialLogger:
         except KeyboardInterrupt:
             ser.close()
             log_file.close()
+            self.zip_logs(log_filename)
