@@ -25,7 +25,7 @@ class SerialLogger:
 
     def zip_logs(self, log_filename):
         zip_filename = os.path.join(self.zip_directory, os.path.basename(log_filename) + '.gz')
-        with open(log_filename, 'rb') as f_in, gzip.open(zip_filename, 'wb') as f_out:
+        with open(log_filename, 'rb') as f_in, gzip.open(zip_filename, 'wb', compresslevel=9) as f_out:
             f_out.writelines(f_in)
 
     def upload_and_delete_zip_files(self):
