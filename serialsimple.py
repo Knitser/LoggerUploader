@@ -52,16 +52,12 @@ class SerialLogger:
 
                 # check if log interval has passed
                 if time.time() - start_time >= self.log_interval_sec:
-                    # close the current log file
                     log_file.close()
 
                     # zip the previous log file
                     self.zip_logs(log_filename)
 
-                    # create a new log filename based on the current time
                     log_filename = self._get_log_filename()
-
-                    # open a new log file for writing
                     log_file = open(log_filename, 'w')
 
                     # reset the start time
