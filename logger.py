@@ -5,6 +5,7 @@ import gzip
 from threading import Thread
 from upload_s3 import S3Uploader
 
+
 class S3UploaderThread(Thread):
     def __init__(self, uploader, zip_directory):
         Thread.__init__(self)
@@ -19,6 +20,7 @@ class S3UploaderThread(Thread):
                 self.uploader.upload_file(zip_filepath)
                 os.remove(zip_filepath)
             time.sleep(60)
+
 
 class SerialLogger:
     def __init__(self, port, baudrate, log_interval_sec, log_directory, zip_directory, bucket_name, s3_prefix):
