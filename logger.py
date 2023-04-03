@@ -46,6 +46,23 @@ class SerialLogger:
         with open(log_filename, 'rb') as f_in, gzip.open(zip_filename, 'wb', compresslevel=9) as f_out:
             f_out.writelines(f_in)
 
+    def send_command(self, command):
+        ser = serial.Serial(self.port, self.baudrate)
+
+        if command == 'can_speed_500k':
+            ser.write(b'can_500\n')
+
+        elif command == 'can_speed_250k':
+            ser.write(b'can_250\n')
+
+        elif command == 'phase_1':
+            ser.write(b'phase,1\n')
+
+        elif command == 'phase_2':
+            ser.write(b'phase,2\n')
+
+        ser.close()
+
     def start_logging(self):
         ser = serial.Serial(self.port, self.baudrate)
 

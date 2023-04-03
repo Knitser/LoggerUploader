@@ -14,6 +14,9 @@ def main():
     logger = SerialLogger(port, baudrate, log_interval_sec, log_directory, zip_directory, bucket_name, s3_prefix)
     logger.start_logging()
 
+    # create loggic between cloud EOS commands and Serial commands
+    logger.send_command('phase_1')
+
 
 if __name__ == '__main__':
     main()
