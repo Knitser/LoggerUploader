@@ -3,7 +3,7 @@ import serial
 
 
 def send_command(command):
-    ser = serial.Serial('/dev/ttyUSB0', 115200)
+    ser = serial.Serial('COM5', 115200)
 
     if command == 'can_speed_500k':
         ser.write(b'can,500\n')
@@ -22,12 +22,15 @@ def send_command(command):
 
     elif command == 'filter_exclude':
         ser.write(b'filter,0\n')
+
     print(ser.readline().decode('utf-8').strip())
     ser.close()
 
 
 while True:
     send_command('can_speed_500k')
-    time.sleep(1)
+    time.sleep(5)
+    send_command('filter_apply')
+    time.sleep(5)
 
 

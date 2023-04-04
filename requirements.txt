@@ -1,6 +1,7 @@
-boto3==1.26.103
+boto3==1.26.105
 pyserial~=3.5
 python-can~=4.1.0
 cantools~=38.0.2
 pyzmq~=25.0.2
 python-crontab==2.7.1
+generic~=1.1.1
