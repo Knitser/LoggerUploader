@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 def main():
-    port = '/dev/ttyACM0'
+    port = '/dev/ttyUSB0'
     baudrate = 115200
     log_interval_sec = 5
     log_directory = 'logfiles'

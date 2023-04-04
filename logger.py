@@ -30,6 +30,7 @@ class SerialLogger:
         self.log_directory = log_directory
         self.zip_directory = zip_directory
         self.s3_uploader = S3Uploader(bucket_name, s3_prefix)
+        self.ser = serial.Serial(self.port, self.baudrate)
 
         if not os.path.exists(self.log_directory):
             os.makedirs(self.log_directory)
@@ -49,28 +50,26 @@ class SerialLogger:
             f_out.writelines(f_in)
 
     def send_command(self, command):
-        ser = serial.Serial(self.port, self.baudrate)
-
         if command == 'can_speed_500k':
-            ser.write(b'can,500\n')
+            self.ser.write(b'can,500\n')
 
         elif command == 'can_speed_250k':
-            ser.write(b'can,250\n')
+            self.ser.write(b'can,250\n')
 
         elif command == 'phase_1':
-            ser.write(b'phase,1\n')
+            self.ser.write(b'phase,1\n')
 
         elif command == 'phase_2':
-            ser.write(b'phase,2\n')
+            self.ser.write(b'phase,2\n')
         
         elif command == 'filter_apply':
-            ser.write(b'filter,1\n')
+            self.ser.write(b'filter,1\n')
 
         elif command == 'filter_exclude':
-            ser.write(b'filter,0\n')
+            self.ser.write(b'filter,0\n')
         
-        print(ser.readline().decode('utf-8').strip())
-        ser.close()
+        print(self.ser.readline().decode('utf-8').strip())
+        self.ser.close()
 
     def start_logging(self):
         ser = serial.Serial(self.port, self.baudrate)
