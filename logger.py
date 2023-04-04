@@ -7,10 +7,11 @@ from upload_s3 import S3Uploader
 
 
 class S3UploaderThread(Thread):
-    def __init__(self, uploader, zip_directory):
+    def __init__(self, uploader, zip_directory, log_directory):
         Thread.__init__(self)
         self.uploader = uploader
         self.zip_directory = zip_directory
+        self.log_directory = log_directory
         self.daemon = True
 
     def run(self):
@@ -19,7 +20,8 @@ class S3UploaderThread(Thread):
                 zip_filepath = os.path.join(self.zip_directory, zip_file)
                 self.uploader.upload_file(zip_filepath)
                 os.remove(zip_filepath)
-            time.sleep(300)
+
+            time.sleep(20)
 
 
 class SerialLogger:
@@ -38,7 +40,7 @@ class SerialLogger:
         if not os.path.exists(self.zip_directory):
             os.makedirs(self.zip_directory)
 
-        self.s3_thread = S3UploaderThread(self.s3_uploader, self.zip_directory)
+        self.s3_thread = S3UploaderThread(self.s3_uploader, self.zip_directory, self.log_directory)
         self.s3_thread.start()
 
     def _get_log_filename(self):
@@ -50,6 +52,7 @@ class SerialLogger:
             f_out.writelines(f_in)
 
     def send_command(self, command):
+        self.ser = serial.Serial(self.port, self.baudrate)
         if command == 'can_speed_500k':
             self.ser.write(b'can,500\n')
 
@@ -63,10 +66,10 @@ class SerialLogger:
             self.ser.write(b'phase,2\n')
         
         elif command == 'filter_apply':
-            self.ser.write(b'filter,1\n')
+            self.ser.write(b'filter,1,100\n')
 
         elif command == 'filter_exclude':
-            self.ser.write(b'filter,0\n')
+            self.ser.write(b'filter,0,100\n')
         
         print(self.ser.readline().decode('utf-8').strip())
         self.ser.close()
@@ -93,9 +96,11 @@ class SerialLogger:
 
                     # zip the previous log file
                     self.zip_logs(log_filename)
+                    
+                    os.remove(log_filename)
 
                     # test command
-                    self.send_command('filter_apply')
+                    # self.send_command('filter_apply')
 
                     log_filename = self._get_log_filename()
                     log_file = open(log_filename, 'w')
