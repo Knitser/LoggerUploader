@@ -41,7 +41,16 @@ BO_ 496 ExampleMessage: 8 PCM1
  SG_ AverageRadius : 6|6@0+ (0.1,0) [0|5] "m" Vector__XXX
  SG_ Enable : 7|1@0+ (1,0) [0|0] "-" Vector__XXX
 
-
+BO_ 532 ID214FastChargeVA: 8 VehicleBus
+ SG_ FC_adapterLocked : 15|1@1+ (1,0) [0|1] ""  Receiver
+ SG_ FC_dcCurrent : 32|14@1- (0.0732422,0) [-600|599.927] "A"  Receiver
+ SG_ FC_dcVoltage : 48|13@1+ (0.0732422,0) [0|599.927] "V"  Receiver
+ SG_ FC_leakageTestNotSupported : 61|1@1+ (1,0) [0|1] ""  Receiver
+ SG_ FC_minCurrentLimit : 16|13@1+ (0.1,0) [0|600] "A"  Receiver
+ SG_ FC_postID : 46|2@1+ (1,0) [0|3] ""  Receiver
+ SG_ FC_protocolVersion : 0|8@1+ (1,0) [0|255] ""  Receiver
+ SG_ FC_statusCode : 8|4@1+ (1,0) [0|15] ""  Receiver
+ SG_ FC_type : 29|3@1+ (1,0) [0|7] ""  Receiver
 
 
 CM_ BO_ 496 "Example message used as template in MotoHawk models.";
