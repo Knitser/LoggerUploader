@@ -18,10 +18,16 @@ def send_command(command):
         ser.write(b'phase,2\n')
 
     elif command == 'filter_apply':
-        ser.write(b'filter,1\n')
+        ser.write(b'filter,1,200\n')
+
+    elif command == 'filter_apply_range':
+        ser.write(b'filter,1,200,300\n')
 
     elif command == 'filter_exclude':
-        ser.write(b'filter,0\n')
+        ser.write(b'filter,0,200\n')
+
+    elif command == 'filter_exclude_range':
+        ser.write(b'filter,0,200,300\n')
 
     print(ser.readline().decode('utf-8').strip())
     ser.close()
