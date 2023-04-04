@@ -5,7 +5,7 @@ from datetime import datetime
 def main():
     port = '/dev/ttyACM0'
     baudrate = 115200
-    log_interval_sec = 2
+    log_interval_sec = 5
     log_directory = 'logfiles'
     zip_directory = 'zipfiles'
     bucket_name = 'blackboxlinkedcar'
@@ -15,7 +15,7 @@ def main():
     logger.start_logging()
 
     # create logic between cloud EOS commands and Serial commands
-    logger.send_command('phase_1')
+    # logger.send_command('phase_1')
 
 
 if __name__ == '__main__':

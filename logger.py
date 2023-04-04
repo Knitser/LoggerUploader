@@ -19,7 +19,7 @@ class S3UploaderThread(Thread):
                 zip_filepath = os.path.join(self.zip_directory, zip_file)
                 self.uploader.upload_file(zip_filepath)
                 os.remove(zip_filepath)
-            time.sleep(60)
+            time.sleep(300)
 
 
 class SerialLogger:
@@ -52,17 +52,24 @@ class SerialLogger:
         ser = serial.Serial(self.port, self.baudrate)
 
         if command == 'can_speed_500k':
-            ser.write(b'can_500\n')
+            ser.write(b'can,500\n')
 
         elif command == 'can_speed_250k':
-            ser.write(b'can_250\n')
+            ser.write(b'can,250\n')
 
         elif command == 'phase_1':
             ser.write(b'phase,1\n')
 
         elif command == 'phase_2':
             ser.write(b'phase,2\n')
+        
+        elif command == 'filter_apply':
+            ser.write(b'filter,1\n')
 
+        elif command == 'filter_exclude':
+            ser.write(b'filter,0\n')
+        
+        print(ser.readline().decode('utf-8').strip())
         ser.close()
 
     def start_logging(self):
@@ -87,6 +94,9 @@ class SerialLogger:
 
                     # zip the previous log file
                     self.zip_logs(log_filename)
+
+                    # test command
+                    self.send_command('filter_apply')
 
                     log_filename = self._get_log_filename()
                     log_file = open(log_filename, 'w')
