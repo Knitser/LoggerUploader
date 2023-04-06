@@ -7,11 +7,12 @@ from upload_s3 import S3Uploader
 
 
 class S3UploaderThread(Thread):
-    def __init__(self, uploader, zip_directory, log_directory):
+    def __init__(self, uploader, zip_directory, log_directory, upload_time):
         Thread.__init__(self)
         self.uploader = uploader
         self.zip_directory = zip_directory
         self.log_directory = log_directory
+        self.upload_time = upload_time
         self.daemon = True
 
     def run(self):
@@ -20,12 +21,11 @@ class S3UploaderThread(Thread):
                 zip_filepath = os.path.join(self.zip_directory, zip_file)
                 self.uploader.upload_file(zip_filepath)
                 os.remove(zip_filepath)
-
-            time.sleep(20)
+            time.sleep(self.upload_time)
 
 
 class SerialLogger:
-    def __init__(self, port, baudrate, log_interval_sec, log_directory, zip_directory, bucket_name, s3_prefix):
+    def __init__(self, port, baudrate, log_interval_sec, log_directory, zip_directory, bucket_name, s3_prefix, upload_time_sec):
         self.port = port
         self.baudrate = baudrate
         self.log_interval_sec = log_interval_sec
@@ -33,6 +33,7 @@ class SerialLogger:
         self.zip_directory = zip_directory
         self.s3_uploader = S3Uploader(bucket_name, s3_prefix)
         self.ser = serial.Serial(self.port, self.baudrate)
+        self.upload_time = upload_time_sec
 
         if not os.path.exists(self.log_directory):
             os.makedirs(self.log_directory)
@@ -40,7 +41,7 @@ class SerialLogger:
         if not os.path.exists(self.zip_directory):
             os.makedirs(self.zip_directory)
 
-        self.s3_thread = S3UploaderThread(self.s3_uploader, self.zip_directory, self.log_directory)
+        self.s3_thread = S3UploaderThread(self.s3_uploader, self.zip_directory, self.log_directory, self.upload_time)
         self.s3_thread.start()
 
     def _get_log_filename(self):
@@ -96,7 +97,6 @@ class SerialLogger:
 
                     # zip the previous log file
                     self.zip_logs(log_filename)
-                    
                     os.remove(log_filename)
 
                     # test command
@@ -112,3 +112,8 @@ class SerialLogger:
             ser.close()
             log_file.close()
             self.zip_logs(log_filename)
+            os.remove(log_filename)
+            for zip_file in os.listdir(self.zip_directory):
+                zip_filepath = os.path.join(self.zip_directory, zip_file)
+                self.s3_uploader.upload_file(zip_filepath)
+                os.remove(zip_filepath)
