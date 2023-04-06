@@ -10,16 +10,12 @@ mystring = re.sub(' +', ' ', mystring)
 mylist = mystring.split(" ")
 dataLenght = int(mylist[6], 10)
 data = bytearray.fromhex(''.join(mylist[-dataLenght::1]))
-print(mylist)
 id = int(mylist[3], 16)
-
+print(f'CAN ID')
 print(hex(id))
-print(", ".join(hex(b) for b in data))
-
-# id = hex(id)
-# data = ", ".join(hex(b) for b in data)
-
-# arbitration_id=0x214
-# data=b'\x80\x4A\x0F\x00\x00\x00\x00\x00'
+print(f'Message data')
+print(f' '.join(hex(byte) for byte in data))
 decoded_data = db.decode_message(id, data)
-print(decoded_data)
+print(f'Decoded data')
+print(f'{decoded_data}')
+
