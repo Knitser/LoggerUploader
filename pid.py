@@ -1,11 +1,10 @@
 import can
 import time
 
-# PID
 PID_REQUEST = 0x7DF
 PID_REPLY = 0x7E8
 OBD_INDEX = 0
-OBD_PID_REQ_INTERVAL = 0.03  # interval time in ms
+OBD_PID_REQ_INTERVAL = 0.03 
 
 PID_ARR = [
     0x0D, 0x4A, 0x0C, 0x04, 0x05, 0x11, 0x0B, 0x0E, 0x0F,

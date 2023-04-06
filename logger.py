@@ -4,6 +4,9 @@ import os
 import gzip
 from threading import Thread
 from upload_s3 import S3Uploader
+from loadconfig import helpers
+
+cfg = helpers.load_config()
 
 
 class S3UploaderThread(Thread):
@@ -45,7 +48,7 @@ class SerialLogger:
         self.s3_thread.start()
 
     def _get_log_filename(self):
-        return os.path.join(self.log_directory, time.strftime("%Y_%m_%d-%H_%M_%S_logfile.asc", time.gmtime()))
+        return os.path.join(self.log_directory, time.strftime(cfg['log']['log_file_name'], time.gmtime()))
 
     def zip_logs(self, log_filename):
         zip_filename = os.path.join(self.zip_directory, os.path.basename(log_filename) + '.gz')
