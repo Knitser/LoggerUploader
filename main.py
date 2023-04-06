@@ -17,8 +17,6 @@ def main():
     # create logic between cloud EOS commands and Serial commands
     # logger.send_command('phase_1')
 
-    # echo -e 'vcan0  1F0   [8]  80 4A 0F 00 00 00 00 00 ::' | python3 -m cantools decode tests/files/dbc/motohawk.dbc
-
 
 if __name__ == '__main__':
     main()

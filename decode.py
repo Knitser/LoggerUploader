@@ -3,7 +3,7 @@ import cantools
 
 db = cantools.database.load_file('motohawk.dbc')
 
-mystring = "  0.350730 2  214       Rx D 8  80  4A  0F  00  00  00  00  00"
+mystring = "  0.350730 2  214       Rx D 8  80  4B  0F  4B  00  00  00  00"
 mylist = re.split('\s+', mystring.strip())
 data_length = int(mylist[5], 10)
 data = bytearray.fromhex(''.join(mylist[-data_length::1]))
