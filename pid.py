@@ -23,16 +23,8 @@ def obd_tx_task():
 def obd_send_pid_msg(pid):
     obdts = time.time()
     msg = can.Message(timestamp=obdts, arbitration_id=PID_REQUEST, data=[0x02, 0x01, pid, 0x00, 0x00, 0x00, 0x00, 0x00],
-                      extended_id=False)
+                      is_extended_id=False)
+    print("[OBD] msg sent: ", msg)
 
-    try:
-        bus_obd.send(msg)
-    except:
-        print("[obd_send_pid_msg] msg sending failed")
 
-while True:
-    try:
-        bus_obd = can.interface.Bus(channel='can1', bustype='socketcan_native')
-    except OSError:
-        print('Cannot find PiCAN board.')
-    exit()
+obd_tx_task()

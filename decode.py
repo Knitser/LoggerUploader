@@ -1,7 +1,7 @@
 import re
 import cantools
 
-db = cantools.database.load_file('motohawk.dbc')
+db = cantools.database.load_file('TeslaModel3.dbc')
 
 mystring = "  0.350730 2  214       Rx D 8  80  4B  0F  4B  00  00  00  00"
 mylist = re.split('\s+', mystring.strip())

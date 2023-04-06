@@ -3,7 +3,7 @@ import cantools
 
 # command: echo -e 'vcan0  214   [8]  80 4A 0F 00 00 00 00 00 ::' | python3 -m cantools decode motohawk.dbc
 
-db = cantools.database.load_file('motohawk.dbc')
+db = cantools.database.load_file('TeslaModel3.dbc')
 
 mystring = "  0.350730 2  214       Rx D 8  80  4A  0F  00  00  00  00  00"
 mystring = re.sub(' +', ' ', mystring)
