@@ -1,4 +1,4 @@
-import subprocess
+import os
 
 
 class EspFlasher:
@@ -8,23 +8,20 @@ class EspFlasher:
         self.chip_type = chip_type
 
     def flash_firmware(self, firmware_path):
-        cmd = [
-            "esptool.exe",
-            "--chip", self.chip_type,
-            "--port", self.port,
-            "--baud", str(self.baudrate),
-            "write_flash", "0x0", firmware_path
-        ]
-        print(cmd)
+        cmd = f"esptool.exe --chip {self.chip_type} " \
+              f"--port {self.port} " \
+              f"--baud {self.baudrate} " \
+              f"write_flash 0x1000 {firmware_path}"
+        print("Flashing firmware:", firmware_path)
 
-        result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        result = os.system(cmd)
 
-        if result.returncode != 0:
-            print("Error flashing firmware:")
-            print(result.stderr.decode())
-        else:
-            print("Firmware flashed successfully!")
+        if result != 0:
+            error_message = f"Firmware flashing failed with error code {result} for firmware {firmware_path}."
+            raise RuntimeError(error_message)
+
+        print("Firmware flashed successfully:", firmware_path)
 
 
 flasher = EspFlasher(port="COM5", baudrate=115200, chip_type="esp32")
-flasher.flash_firmware(firmware_path="firmware.bin")
+flasher.flash_firmware(firmware_path="flash/firmware.bin")
