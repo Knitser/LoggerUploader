@@ -4,6 +4,7 @@ from loadconfig import helpers
 
 cfg = helpers.load_config()
 
+
 def main():
     port = cfg['log']['serial_port']
     baudrate = cfg['log']['baudrate']
