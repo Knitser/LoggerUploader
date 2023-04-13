@@ -51,5 +51,5 @@ files_to_flash = [
     ("0x10000", "flash/firmware.bin"),
 ]
 
-flasher = EspFlasher(port="COM5", baudrate=115200, chip_type="esp32")
+flasher = EspFlasher(port="COM1", baudrate=115200, chip_type="esp32")
 flasher.flash_firmware(files_to_flash, before='default_reset', after='hard_reset', flash_mode='dio', flash_freq='40m', flash_size='4MB')
