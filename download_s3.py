@@ -9,13 +9,23 @@ class S3Downloader:
     def download_file(self, key, local_filename):
         self.s3.Bucket(self.bucket_name).download_file(key, local_filename)
 
-    def download_from_s3(self, key, path):
-        downloader = S3Downloader(self)
-        downloader.download_file(key, path)
+    def download_from_s3(self, key, path, filetype):
+        if filetype == 'binary':
+            s3_key = f'firmware/{key}.bin'
+            local_filename = f'{path}/firmware.bin'
+        elif filetype == 'dbc':
+            s3_key = f'config/{key}.dbc'
+            local_filename = f'{path}/{key}.dbc'
+        else:
+            raise ValueError('Invalid file type. Must be "binary" or "dbc".')
+
+        self.download_file(s3_key, local_filename)
 
 
 bucket_name = 'blackboxlinkedcar'
-s3_key = 'firmware/firmware.bin'
-local_path = 'flash/firm.bin'
+file_type = 'binary'  # or 'dbc'
+file_name = 'firmware'  # or the name of the dbc file without extension
+local_path = 'flash'
 
-S3Downloader.download_from_s3(bucket_name, s3_key, local_path)
+s3_downloader = S3Downloader(bucket_name)
+s3_downloader.download_from_s3(file_name, local_path, file_type)
