@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-message report {
+message reportdata {
     string lat = 1;
     string lon = 2;
     string vin = 3;
