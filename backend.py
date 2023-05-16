@@ -10,13 +10,10 @@ PORT = 1234
 def login():
     while True:
         try:
-            # Step 1: Open a TCP and create an active TCP connection
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 s.connect((HOST, PORT))
-                # Step 2: Send the login message
                 message = f"#LinkedCar|{IMEI}|MVP1|{FW_VERSION}\n".encode()
                 s.sendall(message)
-                # Step 3: Wait for the response
                 response = s.recv(1024)
                 if response == b"\x06":
                     print('login successfully')
