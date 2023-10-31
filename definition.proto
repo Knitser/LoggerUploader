@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+
+message Message {
+    required double latitude = 1;
+    required double longitude = 2;
+    required int16 altitude = 3;
+    required int8 speed = 4;
+    required int32 odometer = 11;
+    required int64 reportTime = 9;
+    required uint16 errorFlags = 11;
+    required int16 accelX = 5;
+    required int16 accelY = 6;
+    required int16 accelZ = 7;
+    optional int16 angleX = 8;
+    optional int16 angleY = 9;
+    optional int16 angleZ = 10;
+    repeated CanPacket packet = 12;
+ } 
+
+
+message CanPacket { 
+    required String pid = 1;
+    required int64 date = 2; 
+    required int32 value = 3; 
+}
